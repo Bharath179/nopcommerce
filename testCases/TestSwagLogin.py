@@ -4,7 +4,7 @@ from utilities.ReadProperties import ReadConfig
 from pageObjects.SwagLogin import Login
 
 
-class Test_001_swaglogin:
+class Test_001_Swaglogin:
     baseUrl=ReadConfig.getUrl()
     username=ReadConfig.getUserName()
     password=ReadConfig.getPasswordfield()
@@ -28,7 +28,7 @@ class Test_001_swaglogin:
             print("The title of homepage is correct and it is verified")
             assert True
         else:
-            self.driver.save_screenshot(".\\Screenshots\\"+"test_swaglogin.png")
+            self.driver.save_screenshot(".\\Screenshots\\"+"test_Swaglogin.png")
             print("The title of the homepage is not correct and it is verified")
             assert False
         self.driver.quit()
