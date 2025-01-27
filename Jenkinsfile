@@ -1,21 +1,47 @@
 pipeline {
-    agent any
+    agent any  // Use any available Jenkins executor
 
     stages {
+        // 1. Checkout code from GitHub repository
         stage('Checkout') {
             steps {
-                git 'https://github.com/Bharath179/nopcommerce.git'
+                checkout scmGit(branches: [[name: '*/master']],
+                                 extensions: [],
+                                 userRemoteConfigs: [[url: 'https://github.com/Bharath179/nopcommerce.git']])
             }
         }
-        stage('Install Dependencies') {
+
+        // 2. Build (optional, if you want to add build commands here)
+        stage('Build') {
             steps {
-                sh 'pip install -r requirements.txt'
+                echo 'Building the project...'
+                // Add your build steps here if needed
+                // For example: sh 'mvn clean install' or other build commands
             }
         }
-        stage('Run Tests') {
+
+        // 3. Run Tests
+        stage('Test') {
             steps {
-                sh 'pytest tests/'
+                echo 'Running tests...'
+                // Run tests using pytest
+                sh 'pytest tests/'  // This assumes your tests are in the 'tests/' directory
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up...'
+            // Optional: clean up resources, such as temporary files
+        }
+
+        success {
+            echo 'Build and tests passed!'
+        }
+
+        failure {
+            echo 'Build or tests failed, check the logs for errors.'
         }
     }
 }
